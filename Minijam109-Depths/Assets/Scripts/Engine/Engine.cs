@@ -16,5 +16,8 @@ public class Engine : MonoBehaviour
         GameInputKeys.CreateDictionarys();
         GameInputKeys.CreateGamepad();
     }
+    void Start(){
+        
+    }
 
 }

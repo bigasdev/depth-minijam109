@@ -20,7 +20,7 @@ public class TalkingHudManager : MonoBehaviour
             Destroy(hud.gameObject);
             this.hud = null;
         };
-        hud.transform.parent = obj;
+        hud.transform.SetParent(obj);
         hud.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y + 2);
         hud.Initialize(txt);
     }

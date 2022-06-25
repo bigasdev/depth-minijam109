@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour
 {
+    private static Hero instance;
+    public static Hero Instance{
+        get{
+            if(instance == null)instance = FindObjectOfType<Hero>();
+            return instance;
+        }
+    }
     [SerializeField] float moveSpeed, jumpForceMultiplier, jumpBoostVanish = .2f;
     [SerializeField] float boostMax = 250, boostMultiplier = .03f, boostMin = 75;
     [SerializeField] BoxCollider2D colliderBox;
     [SerializeField] SpriteSquash spriteSquash;
+    [SerializeField] GameObject spriteRenderer;
     float currentJumpForce, originalBoostVanish;
     bool triedToJump;
-    bool canCharge;
+    public bool canCharge;
+    public bool isFalling{
+        get{
+            if(colliderBox.enabled)
+            return false;
+            else return true;
+        }
+    }
     private void Start() {
         originalBoostVanish = jumpBoostVanish;
+    }
+    private void OnCollisionEnter2D(Collision2D other) {
+        spriteSquash.Squash(.65f, 1);
     }
     private void Update() {
         OnHud();
@@ -21,6 +39,14 @@ public class Hero : MonoBehaviour
         }
         if(!GameInputManager.GetKeyDown("Interaction")){
             OnJump();
+        }
+        if(GameInputManager.GetAxisPress("Horizontal") == 1){
+            spriteSquash.Squash(.65f, 1.2f);
+            spriteRenderer.transform.localScale = new Vector2(1,1);
+        }
+        if(GameInputManager.GetAxisPress("Horizontal") == -1){
+            spriteSquash.Squash(.65f, 1.2f);
+            spriteRenderer.transform.localScale = new Vector2(-1,1);
         }
         if(GameInputManager.GetKeyPress("Interaction") && !canCharge){
             CameraManager.Instance.boostingShake(200f);
@@ -49,7 +75,7 @@ public class Hero : MonoBehaviour
         currentJumpForce = 0;    
     }
     void OnJump(){
-        if(currentJumpForce <= boostMin || !colliderBox.enabled)return;
+        if(currentJumpForce <= boostMin || isFalling)return;
         spriteSquash.Squash(.65f, 1);
         colliderBox.enabled = false;
         CameraManager.Instance.defaultShake();
@@ -57,7 +83,7 @@ public class Hero : MonoBehaviour
         triedToJump = false;
     }
     void OnFall(){
-        if(colliderBox.enabled)return;
+        if(!isFalling)return;
         jumpBoostVanish += boostMultiplier;
         currentJumpForce -= 1 * jumpBoostVanish;
         if(currentJumpForce <= 0){
@@ -69,5 +95,12 @@ public class Hero : MonoBehaviour
     }
     void OnMove(Vector3 movement){
         this.transform.position += movement;
+    }
+    public void SetChargeState(bool state){
+        if(state == canCharge || isFalling)return;
+        canCharge = state;
+        if(state!=true){
+            TalkingHudManager.Instance.InitializeHud(this.transform, "Leaving the tube!");
+        }
     }
 }

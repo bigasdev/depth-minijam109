@@ -57,6 +57,18 @@ public static class GameInputManager
             return Input.GetAxis(axis);
         }
     }
+    public static float GetAxisPress(string axis){
+        if(!HasJoystick()){
+            if(Input.GetKeyDown(GameInputKeys.axisMap[axis][0]) || Input.GetKeyDown(GameInputKeys.axisMap[axis][2])){
+                return 1;
+            }else if(Input.GetKeyDown(GameInputKeys.axisMap[axis][1]) || Input.GetKeyDown(GameInputKeys.axisMap[axis][3])){
+                return -1;
+            }
+            return 0;
+        }else{
+            return Input.GetAxis(axis);
+        }
+    }
     public static bool GetKeyPress(string keyMap){
         if(!HasJoystick()){
             return Input.GetKeyDown(GameInputKeys.keyMapping[keyMap]);
