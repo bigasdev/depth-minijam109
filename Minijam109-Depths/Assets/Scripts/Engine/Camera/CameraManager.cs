@@ -17,7 +17,7 @@ public class CameraManager : MonoBehaviour
     public Vector2 offset;
     [SerializeField] float damping;
     public void defaultShake() => OnCameraShake(.05f, .25f);
-    public void boostingShake(float amt) => OnCameraShake(.1f, .0001f*amt);
+    public void boostingShake(float amt) => OnCameraShake(.1f, .0005f*amt);
     //Parameter to set an action to be thrown at the end of the zoom
     public event Action OnEndZoom = delegate{};
     public Camera mainCamera;

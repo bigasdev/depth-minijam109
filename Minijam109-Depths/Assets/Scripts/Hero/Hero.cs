@@ -7,21 +7,30 @@ public class Hero : MonoBehaviour
     [SerializeField] float moveSpeed, jumpForceMultiplier, jumpBoostVanish = .2f;
     [SerializeField] float boostMax = 250, boostMultiplier = .03f, boostMin = 75;
     [SerializeField] BoxCollider2D colliderBox;
+    [SerializeField] SpriteSquash spriteSquash;
     float currentJumpForce, originalBoostVanish;
     bool triedToJump;
+    bool canCharge;
     private void Start() {
         originalBoostVanish = jumpBoostVanish;
     }
     private void Update() {
         OnHud();
+        if(GameInputManager.GetKeyPress("Dash")){
+            spriteSquash.Squash(.65f, 1);
+        }
         if(!GameInputManager.GetKeyDown("Interaction")){
             OnJump();
+        }
+        if(GameInputManager.GetKeyPress("Interaction") && !canCharge){
+            CameraManager.Instance.boostingShake(200f);
+            TalkingHudManager.Instance.InitializeHud(this.transform, "I need to get in the tube to be able to jump");
         }
     }
     private void FixedUpdate() {
         var movement = new Vector2(GameInputManager.GetAxisDown("Horizontal") * moveSpeed, 0);
         OnMove(movement);
-        OnBoost();
+        if(canCharge)OnBoost();
         OnFall();
     }
     void OnHud(){
@@ -30,6 +39,7 @@ public class Hero : MonoBehaviour
     void OnBoost(){
         if(currentJumpForce <= boostMax){
             if(GameInputManager.GetKeyDown("Interaction")){
+                //spriteSquash.Squash(1-(1/currentJumpForce), 1);
                 CameraManager.Instance.boostingShake(currentJumpForce);
                 currentJumpForce += 1 * jumpForceMultiplier;
                 triedToJump = true;
@@ -40,6 +50,7 @@ public class Hero : MonoBehaviour
     }
     void OnJump(){
         if(currentJumpForce <= boostMin || !colliderBox.enabled)return;
+        spriteSquash.Squash(.65f, 1);
         colliderBox.enabled = false;
         CameraManager.Instance.defaultShake();
         CameraManager.Instance.offset = new Vector2(0, 0);
