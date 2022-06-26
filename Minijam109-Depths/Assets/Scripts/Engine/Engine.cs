@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using BigasTools;
 
 public class Engine : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Engine : MonoBehaviour
     private void Awake() {
         GameInputKeys.CreateDictionarys();
         GameInputKeys.CreateGamepad();
+        ResourceController.StartSets();
     }
     void Start(){
         

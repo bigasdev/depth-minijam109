@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BigasMath;
+using BigasTools;
 
 public class Hero : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class Hero : MonoBehaviour
         originalBoostVanish = jumpBoostVanish;
     }
     private void OnCollisionEnter2D(Collision2D other) {
+        AudioController.Instance.PlaySound("falling");
         spriteSquash.Squash(.65f, 1);
     }
     private void Update() {
@@ -42,10 +44,12 @@ public class Hero : MonoBehaviour
             OnJump();
         }
         if(GameInputManager.GetAxisPress("Horizontal") == 1){
+            AudioController.Instance.PlaySound("turning");
             spriteSquash.Squash(.65f, 1.2f);
             spriteRenderer.transform.localScale = new Vector2(1,1);
         }
         if(GameInputManager.GetAxisPress("Horizontal") == -1){
+            AudioController.Instance.PlaySound("turning");
             spriteSquash.Squash(.65f, 1.2f);
             spriteRenderer.transform.localScale = new Vector2(-1,1);
         }
@@ -77,6 +81,7 @@ public class Hero : MonoBehaviour
     }
     void OnJump(){
         if(currentJumpForce <= boostMin || isFalling)return;
+        AudioController.Instance.PlaySound("tubeThrow");
         spriteSquash.Squash(.65f, 1);
         colliderBox.enabled = false;
         CameraManager.Instance.defaultShake();
@@ -102,6 +107,9 @@ public class Hero : MonoBehaviour
         canCharge = state;
         if(state!=true){
             TalkingHudManager.Instance.InitializeHud(this.transform, "Leaving the tube!");
+        }
+        if(state==true){
+            AudioController.Instance.PlaySound("enteringTube");
         }
     }
     public float GetJumpAmt(){

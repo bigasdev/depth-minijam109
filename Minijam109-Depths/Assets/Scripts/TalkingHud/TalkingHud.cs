@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BigasTools;
 
 public class TalkingHud : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class TalkingHud : MonoBehaviour
             temp += textInput[idx];
             idx++;
             text.text = temp;
+            AudioController.Instance.PlaySound("talkingType");
             if(onType!=null)onType();
             yield return new WaitForSeconds(typeSpeed);
         }
