@@ -16,7 +16,6 @@ public class TalkingHudManager : MonoBehaviour
     public void InitializeHud(Transform obj, string txt){
         if(hud!=null)return;
         var hudObj = Resources.Load<TalkingHud>("Prefabs/TalkingHud");
-        AudioController.Instance.PlaySound("talkingPop");
         hud = Instantiate(hudObj);
         hud.onEnd += () =>{
             Destroy(hud.gameObject);

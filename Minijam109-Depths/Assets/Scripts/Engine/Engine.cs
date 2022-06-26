@@ -21,5 +21,11 @@ public class Engine : MonoBehaviour
     void Start(){
         
     }
+    public void SaveScore(int score){
+        var s = PlayerPrefs.GetInt("Highscore");
+        if(s <= score){
+            PlayerPrefs.SetInt("Highscore", score);
+        }
+    }
 
 }
