@@ -264,8 +264,9 @@ GameObject:
   m_Component:
   - component: {fileID: 355156035}
   - component: {fileID: 355156034}
+  - component: {fileID: 355156036}
   m_Layer: 0
-  m_Name: dreinsteins
+  m_Name: Doctor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -336,6 +337,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &355156036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355156033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0478240031319da44af22ab7828e8b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleAnimation:
+    onFinishCycleEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    onStopEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    objectName: 
+    gameObject: {fileID: 0}
+    sprites:
+    - {fileID: 8776247881017459261, guid: 50413f01967c2ab4e8c26062301f622a, type: 3}
+    - {fileID: 397839706285873267, guid: 50413f01967c2ab4e8c26062301f622a, type: 3}
+    - {fileID: 1410727657518143044, guid: 50413f01967c2ab4e8c26062301f622a, type: 3}
+    - {fileID: 2985697412366541312, guid: 50413f01967c2ab4e8c26062301f622a, type: 3}
+    - {fileID: 1410727657518143044, guid: 50413f01967c2ab4e8c26062301f622a, type: 3}
+    - {fileID: 397839706285873267, guid: 50413f01967c2ab4e8c26062301f622a, type: 3}
+    tickTimer: 0.15
+    loop: 1
+    currentAnimation: 0
+  spriteRenderer: {fileID: 355156034}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

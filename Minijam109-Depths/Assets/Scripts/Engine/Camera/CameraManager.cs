@@ -33,7 +33,7 @@ public class CameraManager : MonoBehaviour
         SmoothFollow(obj.transform.position);
     }
     void SmoothFollow(Vector2 obj){
-        this.transform.position = Vector2.Lerp(this.transform.position, new Vector2(this.transform.position.x, obj.y + offset.y), damping * Time.deltaTime);
+        this.transform.position = new Vector2(this.transform.position.x, obj.y + offset.y);
     }
     public void OnCameraShake(float duration, float magnitude) {
         if (shakeRoutine != null) {

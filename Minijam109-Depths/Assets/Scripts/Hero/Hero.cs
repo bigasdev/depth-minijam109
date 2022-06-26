@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BigasMath;
 
 public class Hero : MonoBehaviour
 {
@@ -14,9 +15,9 @@ public class Hero : MonoBehaviour
     [SerializeField] float moveSpeed, jumpForceMultiplier, jumpBoostVanish = .2f;
     [SerializeField] float boostMax = 250, boostMultiplier = .03f, boostMin = 75;
     [SerializeField] BoxCollider2D colliderBox;
-    [SerializeField] SpriteSquash spriteSquash;
+    public SpriteSquash spriteSquash;
     [SerializeField] GameObject spriteRenderer;
-    float currentJumpForce, originalBoostVanish;
+    public float currentJumpForce, originalBoostVanish;
     bool triedToJump;
     public bool canCharge;
     public bool isFalling{
@@ -102,5 +103,8 @@ public class Hero : MonoBehaviour
         if(state!=true){
             TalkingHudManager.Instance.InitializeHud(this.transform, "Leaving the tube!");
         }
+    }
+    public float GetJumpAmt(){
+        return BMathPercentage.GetPercentageFromFloat(currentJumpForce, boostMax) * .01f;
     }
 }
