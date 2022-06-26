@@ -18,7 +18,9 @@ public class Hero : MonoBehaviour
     [SerializeField] BoxCollider2D colliderBox;
     [SerializeField] Rigidbody2D rigidbody2D;
     public SpriteSquash spriteSquash;
-    [SerializeField] GameObject spriteRenderer;
+    [SerializeField] Sprite deadSprite;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] GameObject spriteObj;
     public float currentJumpForce, originalBoostVanish;
     bool triedToJump;
     public bool canCharge;
@@ -42,22 +44,20 @@ public class Hero : MonoBehaviour
     }
     private void Update() {
         if(StateController.Instance.currentState != States.GAME_UPDATE)return;
+        this.transform.position = new Vector2(Mathf.Clamp(this.transform.position.x, -8, 8), this.transform.position.y);
         OnHud();
-        if(GameInputManager.GetKeyPress("Dash")){
-            spriteSquash.Squash(.65f, 1);
-        }
         if(!GameInputManager.GetKeyDown("Interaction")){
             OnJump();
         }
         if(GameInputManager.GetAxisPress("Horizontal") == 1){
             AudioController.Instance.PlaySound("turning");
-            spriteSquash.Squash(.65f, 1.2f);
-            spriteRenderer.transform.localScale = new Vector2(1,1);
+            spriteSquash.Squash(.85f, 1.1f);
+            spriteObj.transform.localScale = new Vector2(1,1);
         }
         if(GameInputManager.GetAxisPress("Horizontal") == -1){
             AudioController.Instance.PlaySound("turning");
-            spriteSquash.Squash(.65f, 1.2f);
-            spriteRenderer.transform.localScale = new Vector2(-1,1);
+            spriteSquash.Squash(.85f, 1.1f);
+            spriteObj.transform.localScale = new Vector2(-1,1);
         }
         if(GameInputManager.GetKeyPress("Interaction") && !canCharge){
             CameraManager.Instance.boostingShake(200f);
@@ -110,6 +110,7 @@ public class Hero : MonoBehaviour
             d.transform.position = new Vector2(0, this.transform.position.y - 1.5f);
             jumpBoostVanish = originalBoostVanish;
             Engine.Instance.SaveScore(GetScore());
+            spriteRenderer.sprite = deadSprite;
             Gamehud.Instance.EndGame();
             StateController.Instance.ChangeState(States.GAME_IDLE);
         }

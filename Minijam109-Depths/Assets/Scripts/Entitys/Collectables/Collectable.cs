@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using BigasTools.Dynamic;
+using BigasTools.Sprite2D;
 public class Collectable : MonoBehaviour
 {
     public System.Action onCollect = delegate{};
@@ -11,6 +12,10 @@ public class Collectable : MonoBehaviour
         OnCollect();
     }
     public virtual void OnCollect(){
+        var c = DynamicPool.Instance.GetFromPool("ExplosionParticle", Hero.Instance.transform.position);
+        c.GetComponent<SpriteAnimator>().idleAnimation.onStop += () =>{
+            DynamicPool.Instance.ReturnToPool("ExplosionParticle", c);
+        };
         if(onCollect!=null){
             onCollect();
             onCollect = null;

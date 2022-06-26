@@ -114,7 +114,9 @@ MonoBehaviour:
   colliderBox: {fileID: 1498187655338342404}
   rigidbody2D: {fileID: 1498187655583365884}
   spriteSquash: {fileID: 1498187655583365885}
-  spriteRenderer: {fileID: 4315692017245665600}
+  deadSprite: {fileID: 21300000, guid: 8deedb37542abf440b721b3929bb0969, type: 3}
+  spriteRenderer: {fileID: 1498187656708282694}
+  spriteObj: {fileID: 4315692017245665600}
   currentJumpForce: 0
   originalBoostVanish: 0
   canCharge: 0
