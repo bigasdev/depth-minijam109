@@ -15,8 +15,10 @@ public class Gamehud : MonoBehaviour
         }
     }
 
-    [SerializeField] Text boostHud, score, endgameText, highscoreText;
+    [SerializeField] Text boostHud, score, scoreText, endgameText, highscoreText;
     [SerializeField] GameObject endGameObj;
+    [SerializeField] RectTransform boxObj;
+    [SerializeField] float movingSpeed;
 
     private void Update() {
         if(endGameObj.activeSelf){
@@ -32,11 +34,22 @@ public class Gamehud : MonoBehaviour
     public void SetScoreText(int amount){
         score.text = $"SCORE: {amount.ToString()}";
     }
-    public void EndGame(){
+    public void EndGame(int score, float percentage){
         endGameObj.SetActive(true);
         var rnd = endGameTexts[Random.Range(0, endGameTexts.Count)];
         endgameText.text = rnd;
 
-        highscoreText.text = $"HIGHSCORE: {PlayerPrefs.GetInt("Highscore").ToString()}";
+        scoreText.text = score.ToString();
+        highscoreText.text = $"{PlayerPrefs.GetInt("Highscore").ToString()}";
+        Debug.Log(percentage);
+        Debug.Log(330*percentage);
+        StartCoroutine(MoveBox(330*percentage));
+    }
+    IEnumerator MoveBox(float amt){
+        amt = boxObj.anchoredPosition.x + amt;
+        while(boxObj.anchoredPosition.x <= amt){
+            boxObj.anchoredPosition = Vector2.MoveTowards(boxObj.anchoredPosition, new Vector2(amt, boxObj.anchoredPosition.y), movingSpeed * Time.deltaTime);
+            yield return null;
+        }
     }
 }

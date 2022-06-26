@@ -111,7 +111,7 @@ public class Hero : MonoBehaviour
             jumpBoostVanish = originalBoostVanish;
             Engine.Instance.SaveScore(GetScore());
             spriteRenderer.sprite = deadSprite;
-            Gamehud.Instance.EndGame();
+            Gamehud.Instance.EndGame(GetScore(), BMathPercentage.GetPercentageFromFloat(GetScore(), PlayerPrefs.GetInt("Highscore"))* .01f);
             StateController.Instance.ChangeState(States.GAME_IDLE);
         }
     }
