@@ -15,7 +15,7 @@ public class Gamehud : MonoBehaviour
         }
     }
 
-    [SerializeField] Text boostHud, score, scoreText, endgameText, highscoreText;
+    [SerializeField] Text money, boostHud, score, scoreText, endgameText, highscoreText;
     [SerializeField] GameObject endGameObj;
     [SerializeField] RectTransform boxObj;
     [SerializeField] float movingSpeed;
@@ -26,6 +26,7 @@ public class Gamehud : MonoBehaviour
                 SceneManager.LoadScene("Main");
             }
         }
+        money.text = "Money: " + Hero.Instance.GetMoney().ToString();
     }
 
     public void SetBoostText(int amount){

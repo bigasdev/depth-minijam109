@@ -22,6 +22,7 @@ public class Hero : MonoBehaviour
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] GameObject spriteObj;
     public float currentJumpForce, originalBoostVanish;
+    int money;
     bool triedToJump;
     public bool canCharge;
     public bool isFalling{
@@ -37,6 +38,7 @@ public class Hero : MonoBehaviour
         originalPos = this.transform.position;
         originalBoostVanish = jumpBoostVanish;
         deathPlatform = Resources.Load<GameObject>("Prefabs/DeathPlatform");
+        money = PlayerPrefs.GetInt("Money");
     }
     private void OnCollisionEnter2D(Collision2D other) {
         AudioController.Instance.PlaySound("falling");
@@ -112,6 +114,7 @@ public class Hero : MonoBehaviour
             Engine.Instance.SaveScore(GetScore());
             spriteRenderer.sprite = deadSprite;
             Gamehud.Instance.EndGame(GetScore(), BMathPercentage.GetPercentageFromFloat(GetScore(), PlayerPrefs.GetInt("Highscore"))* .01f);
+            PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + money);
             StateController.Instance.ChangeState(States.GAME_IDLE);
         }
     }
@@ -140,5 +143,11 @@ public class Hero : MonoBehaviour
     }
     public void ChangeBoost(int amt){
         currentJumpForce += amt;
+    }
+    public void AddMoney(int amt){
+        money += amt;
+    }
+    public int GetMoney(){
+        return money;
     }
 }

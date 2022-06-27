@@ -10,6 +10,7 @@ public class PlatformObject : MonoBehaviour
     public void Initialize(){
         var dmgRandomValue = Random.Range(0, 2);
         var boostRandomValue = Random.Range(0, 2);
+        var coinRandomValue = Random.Range(1,3);
 
         for (int i = 0; i < dmgRandomValue; i++)
         {
@@ -27,6 +28,15 @@ public class PlatformObject : MonoBehaviour
 
             c.GetComponentInParent<BoostCollectable>().onCollect += () =>{
                 PoolsManager.Instance.GetPool("BoostCollectables").AddToPool(c);
+            };
+        }
+        for (int i = 0; i < coinRandomValue; i++)
+        {
+            var pos = new Vector2(this.transform.position.x + Random.Range(-bounds.x, bounds.x), this.transform.position.y + Random.Range(-bounds.y, bounds.y));
+            var c = PoolsManager.Instance.GetPool("CoinCollectables").GetFromPool(pos);
+
+            c.GetComponentInParent<CoinCollectable>().onCollect += () =>{
+                PoolsManager.Instance.GetPool("CoinCollectables").AddToPool(c);
             };
         }
     }
